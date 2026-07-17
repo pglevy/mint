@@ -68,3 +68,12 @@ src/
     export.ts
     mcp-schema.ts
 ```
+
+## Unlinking
+
+If you need to unlink later, run either or both of these commands, depending on which node you're using:
+
+```
+npm unlink -g mint-cli          # removes from whichever npm is active (nvm)
+/opt/homebrew/bin/npm unlink -g mint-cli  # removes from homebrew's npm
+```
