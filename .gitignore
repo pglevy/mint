@@ -2,3 +2,4 @@ node_modules/
 dist/
 *.tsbuildinfo
 .kiro/specs
+.kiro/skills
