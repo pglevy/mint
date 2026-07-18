@@ -18,6 +18,30 @@ deno task start list
 
 No install step required — Deno runs TypeScript directly.
 
+## Installing as a Global Command
+
+To use `mint` directly from anywhere (instead of `deno task start`):
+
+```bash
+deno install -f --allow-net=raw.githubusercontent.com --allow-env --name mint main.ts
+```
+
+This places a `mint` executable in `~/.deno/bin/`. Make sure that's on your PATH:
+
+```bash
+export PATH="$HOME/.deno/bin:$PATH"  # add to ~/.zshrc if not already there
+```
+
+Then you can run:
+
+```bash
+mint list --category color
+mint export -o tokens.json
+mint --help
+```
+
+To update after code changes, re-run the install command with `-f` (force).
+
 ## Usage
 
 ```bash
