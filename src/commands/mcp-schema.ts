@@ -1,60 +1,93 @@
 /**
  * MCP tool schema command — outputs a static JSON object describing
- * the available Mint tool calls, their parameters, and return types.
+ * the available Mint MCP tool calls, their parameters, and return types.
+ *
+ * No network required — this is pure static output.
  */
-export function mcpSchemaCommand(): void {
-  const schema = {
-    tools: [
-      {
-        name: 'list_tokens',
-        description:
-          'List all design tokens, optionally filtered by category and family',
-        parameters: {
-          type: 'object',
-          properties: {
-            category: {
-              type: 'string',
-              enum: ['color', 'typography', 'spacing'],
-              description: 'Filter tokens by category',
-            },
-            family: {
-              type: 'string',
-              description:
-                "Filter tokens by family (e.g., 'red', 'gray'). Only applies when category is specified.",
-            },
-          },
-        },
-        returns: {
-          type: 'array',
-          description:
-            'Array of token objects with path, value, type, and category fields',
-        },
-      },
-      {
-        name: 'export_tokens',
-        description: 'Export design tokens as W3C DTCG JSON',
-        parameters: {
-          type: 'object',
-          properties: {
-            category: {
-              type: 'string',
-              enum: ['color', 'typography', 'spacing'],
-              description: 'Filter tokens by category',
-            },
-            out: {
-              type: 'string',
-              description:
-                'File path to write the export to. If omitted, outputs to stdout.',
-            },
-          },
-        },
-        returns: {
-          type: 'object',
-          description: 'W3C DTCG-formatted JSON token tree',
-        },
-      },
-    ],
-  };
 
-  process.stdout.write(JSON.stringify(schema, null, 2) + '\n');
+import { createColorContext } from "../output/color.ts";
+import { createWriter } from "../output/writer.ts";
+
+interface GlobalOptions {
+  json: boolean;
+  quiet: boolean;
+  noColor: boolean;
+  debug: boolean;
+  help: boolean;
+  version: boolean;
+}
+
+const MCP_SCHEMA = {
+  tools: [
+    {
+      name: "list_tokens",
+      description: "List design tokens with optional category filter",
+      inputSchema: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+            enum: ["color", "typography", "spacing"],
+            description: "Filter tokens by category",
+          },
+        },
+        required: [],
+      },
+      returnType: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            path: { type: "string" },
+            value: {
+              oneOf: [
+                { type: "string" },
+                { type: "number" },
+                { type: "object" },
+              ],
+            },
+            type: { type: "string" },
+            category: {
+              type: "string",
+              enum: ["color", "typography", "spacing"],
+            },
+          },
+        },
+        description:
+          "Array of token objects with path, value, type, and category",
+      },
+    },
+    {
+      name: "export_tokens",
+      description: "Export tokens as DTCG JSON",
+      inputSchema: {
+        type: "object",
+        properties: {
+          category: {
+            type: "string",
+            enum: ["color", "typography", "spacing"],
+            description: "Filter exported tokens by category",
+          },
+        },
+        required: [],
+      },
+      returnType: {
+        type: "object",
+        description: "W3C DTCG-formatted JSON token tree",
+      },
+    },
+  ],
+};
+
+export function mcpSchemaCommand(
+  _args: string[],
+  globals: GlobalOptions,
+): void {
+  const color = createColorContext({ noColor: globals.noColor });
+  const writer = createWriter(
+    { quiet: globals.quiet, json: globals.json },
+    color,
+  );
+
+  writer.json(MCP_SCHEMA);
 }

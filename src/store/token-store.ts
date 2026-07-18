@@ -1,14 +1,24 @@
-import type { TokenCategory, DTCGToken, DTCGGroup } from '../types.js';
+import type { DTCGGroup, DTCGToken, TokenCategory } from "../types.ts";
 
-export const TOKENS_URL =
-  'https://raw.githubusercontent.com/pglevy/sailwind/main/public/tokens.json';
+/** A single flattened token entry with its resolved path and value. */
+export interface TokenEntry {
+  path: string;
+  value: string | number | Record<string, unknown>;
+  type: string;
+  category: TokenCategory;
+}
+
+/** Result returned from `loadFromJSON` with per-category token counts. */
+export interface LoadResult {
+  counts: Record<TokenCategory, number>;
+}
 
 function isDTCGToken(node: unknown): node is DTCGToken {
   return (
-    typeof node === 'object' &&
+    typeof node === "object" &&
     node !== null &&
-    '$value' in node &&
-    '$type' in node
+    "$value" in node &&
+    "$type" in node
   );
 }
 
@@ -16,7 +26,7 @@ function collectTokens(
   node: DTCGGroup,
   prefix: string,
   category: TokenCategory,
-  result: Array<{ path: string; value: string; type: string; category: TokenCategory }>,
+  result: TokenEntry[],
 ): void {
   for (const [key, child] of Object.entries(node)) {
     const path = prefix ? `${prefix}.${key}` : key;
@@ -47,15 +57,22 @@ export class TokenStore {
     spacing: {},
   };
 
-  loadFromJSON(json: Record<string, DTCGGroup>): void {
+  /**
+   * Load token data from parsed JSON. Returns counts per category
+   * instead of logging to console.
+   */
+  loadFromJSON(json: Record<string, DTCGGroup>): LoadResult {
     this.tree = { color: {}, typography: {}, spacing: {} };
-    for (const cat of ['color', 'typography', 'spacing'] as TokenCategory[]) {
+    for (const cat of ["color", "typography", "spacing"] as TokenCategory[]) {
       if (json[cat]) this.tree[cat] = json[cat];
     }
-    const c = countTokens(this.tree.color);
-    const t = countTokens(this.tree.typography);
-    const s = countTokens(this.tree.spacing);
-    console.log(`Loaded ${c} color, ${t} typography, ${s} spacing tokens`);
+    return {
+      counts: {
+        color: countTokens(this.tree.color),
+        typography: countTokens(this.tree.typography),
+        spacing: countTokens(this.tree.spacing),
+      },
+    };
   }
 
   getAllTokens(): DTCGGroup {
@@ -69,13 +86,22 @@ export class TokenStore {
   getByFamily(category: TokenCategory, family: string): DTCGGroup {
     const catTree = this.tree[category];
     if (!(family in catTree)) return {};
-    if (isDTCGToken(catTree[family])) return cloneGroup({ [family]: catTree[family] } as DTCGGroup);
+    if (isDTCGToken(catTree[family])) {
+      return cloneGroup({ [family]: catTree[family] } as DTCGGroup);
+    }
     return cloneGroup(catTree[family] as DTCGGroup);
   }
 
-  listTokens(category?: TokenCategory): Array<{ path: string; value: string; type: string; category: TokenCategory }> {
-    const result: Array<{ path: string; value: string; type: string; category: TokenCategory }> = [];
-    const cats: TokenCategory[] = category ? [category] : ['color', 'typography', 'spacing'];
+  /** Returns the top-level family keys for a given category. */
+  getFamilies(category: TokenCategory): string[] {
+    return Object.keys(this.tree[category]);
+  }
+
+  listTokens(category?: TokenCategory): TokenEntry[] {
+    const result: TokenEntry[] = [];
+    const cats: TokenCategory[] = category
+      ? [category]
+      : ["color", "typography", "spacing"];
     for (const cat of cats) {
       collectTokens(this.tree[cat], cat, cat, result);
     }
@@ -83,7 +109,9 @@ export class TokenStore {
   }
 
   toJSON(category?: TokenCategory): string {
-    if (category) return JSON.stringify({ [category]: this.tree[category] }, null, 2);
+    if (category) {
+      return JSON.stringify({ [category]: this.tree[category] }, null, 2);
+    }
     return JSON.stringify(this.tree, null, 2);
   }
 }
