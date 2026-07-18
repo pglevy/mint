@@ -17,8 +17,18 @@ export function formatValue(
     return String(value);
   }
 
+  // Special case: object with exactly "value" and "unit" keys → combine as "0.5rem"
+  const keys = Object.keys(value);
+  if (
+    keys.length === 2 &&
+    "value" in value &&
+    "unit" in value
+  ) {
+    return `${value["value"]}${value["unit"]}`;
+  }
+
   // Object: sort keys alphabetically and format as "key: value" pairs
-  const keys = Object.keys(value).sort();
+  keys.sort();
   const parts = keys.map((key) => {
     const v = value[key];
     const formatted = formatNestedValue(v);

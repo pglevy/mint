@@ -103,17 +103,63 @@ export async function listCommand(
       writer.stdout(`  ${header}`);
     }
 
-    // Calculate column widths for alignment
-    const pathWidths = categoryTokens.map((t) => t.path.length);
-    const valueWidths = categoryTokens.map((t) => formatValue(t.value).length);
-    const maxPath = Math.max(...pathWidths);
-    const maxValue = Math.max(...valueWidths);
+    // Strip the category prefix from paths (e.g., "spacing.radius.sm" → "radius.sm")
+    const stripPrefix = (path: string) => {
+      const dotIdx = path.indexOf(".");
+      return dotIdx >= 0 ? path.slice(dotIdx + 1) : path;
+    };
 
-    for (const token of categoryTokens) {
-      const formattedValue = formatValue(token.value);
-      const paddedPath = token.path.padEnd(maxPath);
-      const paddedValue = formattedValue.padEnd(maxValue);
-      writer.stdout(`    ${paddedPath}  ${paddedValue}  ${token.type}`);
+    // Extract the family (first segment) from a stripped path
+    const getFamily = (path: string) => {
+      const dotIdx = path.indexOf(".");
+      return dotIdx >= 0 ? path.slice(0, dotIdx) : path;
+    };
+
+    // Extract a sortable numeric value from a token
+    const numericValue = (token: typeof categoryTokens[0]): number => {
+      if (typeof token.value === "number") return token.value;
+      if (typeof token.value === "string") {
+        const n = parseFloat(token.value);
+        if (!isNaN(n)) return n;
+      }
+      if (typeof token.value === "object" && token.value !== null) {
+        // For composite tokens, try the "value" key if present
+        const v = (token.value as Record<string, unknown>)["value"];
+        if (typeof v === "number") return v;
+        if (typeof v === "string") {
+          const n = parseFloat(v);
+          if (!isNaN(n)) return n;
+        }
+      }
+      return Infinity;
+    };
+
+    // Sort: primary by family (alpha), secondary by numeric value (low to high)
+    const sorted = [...categoryTokens].sort((a, b) => {
+      const famA = getFamily(stripPrefix(a.path));
+      const famB = getFamily(stripPrefix(b.path));
+      const famCmp = famA.localeCompare(famB);
+      if (famCmp !== 0) return famCmp;
+
+      return numericValue(a) - numericValue(b);
+    });
+
+    // Calculate column width for alignment
+    const strippedPaths = sorted.map((t) => stripPrefix(t.path));
+    const maxPath = Math.max(...strippedPaths.map((p) => p.length));
+
+    for (let i = 0; i < sorted.length; i++) {
+      // Add blank line between families
+      if (i > 0) {
+        const prevFamily = getFamily(strippedPaths[i - 1]);
+        const currFamily = getFamily(strippedPaths[i]);
+        if (prevFamily !== currFamily) {
+          writer.stdout("");
+        }
+      }
+      const formattedValue = formatValue(sorted[i].value);
+      const paddedPath = strippedPaths[i].padEnd(maxPath);
+      writer.stdout(`    ${paddedPath}  ${formattedValue}`);
     }
   }
 }
