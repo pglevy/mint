@@ -26,7 +26,8 @@ To use `mint` directly from anywhere (instead of `deno task start`):
 deno install -f --allow-net=raw.githubusercontent.com --allow-env --name mint main.ts
 ```
 
-This places a `mint` executable in `~/.deno/bin/`. Make sure that's on your PATH:
+This places a `mint` executable in `~/.deno/bin/`. Make sure that's on your
+PATH:
 
 ```bash
 export PATH="$HOME/.deno/bin:$PATH"  # add to ~/.zshrc if not already there
