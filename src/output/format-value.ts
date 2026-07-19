@@ -7,7 +7,7 @@
  *   (nested objects recurse one level, then fall back to JSON.stringify)
  */
 export function formatValue(
-  value: string | number | Record<string, unknown>,
+  value: string | number | Record<string, unknown> | unknown[],
 ): string {
   if (typeof value === "string") {
     return value;
@@ -15,6 +15,23 @@ export function formatValue(
 
   if (typeof value === "number") {
     return String(value);
+  }
+
+  // Special case: array of gradient stops [{color, position}, ...] → "0% color · 57% color · ..."
+  if (Array.isArray(value)) {
+    if (
+      value.length > 0 &&
+      typeof value[0] === "object" &&
+      value[0] !== null &&
+      "color" in value[0] &&
+      "position" in value[0]
+    ) {
+      return (value as Array<{ color: string; position: number }>)
+        .map((stop) => `${Math.round(stop.position * 100)}% ${stop.color}`)
+        .join(" · ");
+    }
+    // Generic array fallback
+    return JSON.stringify(value);
   }
 
   // Special case: object with exactly "value" and "unit" keys → combine as "0.5rem"

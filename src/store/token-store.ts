@@ -3,7 +3,7 @@ import type { DTCGGroup, DTCGToken, TokenCategory } from "../types.ts";
 /** A single flattened token entry with its resolved path and value. */
 export interface TokenEntry {
   path: string;
-  value: string | number | Record<string, unknown>;
+  value: string | number | Record<string, unknown> | unknown[];
   type: string;
   category: TokenCategory;
 }
@@ -53,6 +53,7 @@ function cloneGroup(group: DTCGGroup): DTCGGroup {
 export class TokenStore {
   private tree: Record<TokenCategory, DTCGGroup> = {
     color: {},
+    gradient: {},
     typography: {},
     spacing: {},
   };
@@ -62,13 +63,14 @@ export class TokenStore {
    * instead of logging to console.
    */
   loadFromJSON(json: Record<string, DTCGGroup>): LoadResult {
-    this.tree = { color: {}, typography: {}, spacing: {} };
-    for (const cat of ["color", "typography", "spacing"] as TokenCategory[]) {
+    this.tree = { color: {}, gradient: {}, typography: {}, spacing: {} };
+    for (const cat of ["color", "gradient", "typography", "spacing"] as TokenCategory[]) {
       if (json[cat]) this.tree[cat] = json[cat];
     }
     return {
       counts: {
         color: countTokens(this.tree.color),
+        gradient: countTokens(this.tree.gradient),
         typography: countTokens(this.tree.typography),
         spacing: countTokens(this.tree.spacing),
       },
@@ -101,7 +103,7 @@ export class TokenStore {
     const result: TokenEntry[] = [];
     const cats: TokenCategory[] = category
       ? [category]
-      : ["color", "typography", "spacing"];
+      : ["color", "gradient", "typography", "spacing"];
     for (const cat of cats) {
       collectTokens(this.tree[cat], cat, cat, result);
     }

@@ -17,14 +17,14 @@ const SUBCOMMANDS: SubcommandInfo[] = [
     name: "list",
     description: "List design tokens",
     examples: ["mint list --category color"],
-    flags: ["--category <color|typography|spacing>  Filter by token category"],
+    flags: ["--category <color|gradient|typography|spacing>  Filter by token category"],
   },
   {
     name: "tokens",
     description: "Output raw DTCG token data",
     examples: ["mint tokens --category typography --family heading"],
     flags: [
-      "--category <color|typography|spacing>  Filter by token category",
+      "--category <color|gradient|typography|spacing>  Filter by token category",
       "--family <name>                        Filter by token family",
     ],
   },
@@ -33,7 +33,7 @@ const SUBCOMMANDS: SubcommandInfo[] = [
     description: "Export tokens as DTCG JSON",
     examples: ["mint export --category spacing -o tokens.json"],
     flags: [
-      "--category <color|typography|spacing>  Filter by token category",
+      "--category <color|gradient|typography|spacing>  Filter by token category",
       "-o, --output <path>                    Write output to a file",
     ],
   },
