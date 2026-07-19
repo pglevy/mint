@@ -64,9 +64,6 @@ deno task start export
 # Export to file, filtered by category
 deno task start export -o tokens.json --category spacing
 
-# Output MCP tool schema
-deno task start mcp-schema
-
 # JSON output for piping
 deno task start list --category color --json | jq '.[] | .path'
 ```
@@ -89,7 +86,6 @@ deno task start list --category color --json | jq '.[] | .path'
 | `list`       | List tokens grouped by category with name, value, and type              |
 | `tokens`     | Query tokens with `--category` and `--family` filters, output DTCG JSON |
 | `export`     | Export DTCG JSON to stdout or `-o <file>`                               |
-| `mcp-schema` | Output MCP tool definitions for agent integration                       |
 
 ## Development
 
@@ -123,8 +119,7 @@ mint/
 │   ├── commands/
 │   │   ├── list.ts
 │   │   ├── tokens.ts
-│   │   ├── export.ts
-│   │   └── mcp-schema.ts
+│   │   └── export.ts
 │   ├── output/
 │   │   ├── format-value.ts
 │   │   ├── color.ts

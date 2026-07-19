@@ -32,25 +32,10 @@ async function runCli(
   };
 }
 
-Deno.test("mcp-schema success — exit 0, valid JSON with tools array", async () => {
-  const result = await runCli(["mcp-schema"]);
-  assertEquals(result.code, 0);
-  const parsed = JSON.parse(result.stdout);
-  assert(Array.isArray(parsed.tools), "Expected 'tools' to be an array");
-  assert(parsed.tools.length > 0, "Expected at least one tool in schema");
-});
-
 Deno.test("invalid category error — exit 1, stderr mentions the invalid value", async () => {
   const result = await runCli(["list", "--category", "bogus"]);
   assertEquals(result.code, 1);
   assertStringIncludes(result.stderr, "bogus");
-});
-
-Deno.test("--json mode — exit 0, stdout is parseable JSON", async () => {
-  const result = await runCli(["mcp-schema", "--json"]);
-  assertEquals(result.code, 0);
-  const parsed = JSON.parse(result.stdout);
-  assert(typeof parsed === "object" && parsed !== null, "Expected JSON object");
 });
 
 Deno.test("--help output — exit 0, contains mint and Examples", async () => {

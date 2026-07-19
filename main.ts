@@ -14,7 +14,6 @@ import {
 import { MintError, suggestCommand } from "./src/errors.ts";
 import { createColorContext } from "./src/output/color.ts";
 import { createWriter } from "./src/output/writer.ts";
-import { mcpSchemaCommand } from "./src/commands/mcp-schema.ts";
 import { exportCommand } from "./src/commands/export.ts";
 import { tokensCommand } from "./src/commands/tokens.ts";
 import { listCommand } from "./src/commands/list.ts";
@@ -37,22 +36,16 @@ type SubcommandHandler = (
   globals: GlobalOptions,
 ) => Promise<void>;
 
-const mcpSchemaHandler: SubcommandHandler = (_args, globals) => {
-  mcpSchemaCommand(_args, globals);
-  return Promise.resolve();
-};
-
 // ---------------------------------------------------------------------------
 // Subcommand registry
 // ---------------------------------------------------------------------------
 
-const VALID_SUBCOMMANDS = ["list", "tokens", "export", "mcp-schema"];
+const VALID_SUBCOMMANDS = ["list", "tokens", "export"];
 
 const handlers: Record<string, SubcommandHandler> = {
   list: listCommand,
   tokens: tokensCommand,
   export: exportCommand,
-  "mcp-schema": mcpSchemaHandler,
 };
 
 // ---------------------------------------------------------------------------

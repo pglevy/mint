@@ -37,12 +37,6 @@ const SUBCOMMANDS: SubcommandInfo[] = [
       "-o, --output <path>                    Write output to a file",
     ],
   },
-  {
-    name: "mcp-schema",
-    description: "Output MCP tool schema",
-    examples: ["mint mcp-schema"],
-    flags: [],
-  },
 ];
 
 const GLOBAL_FLAGS = [
@@ -66,7 +60,7 @@ export function showConciseHelp(): void {
     "  mint list --category color",
     "  mint export -o tokens.json",
     "",
-    "Subcommands: list, tokens, export, mcp-schema",
+    "Subcommands: list, tokens, export",
     "",
     "Run mint --help for full usage information.",
   ];
@@ -86,7 +80,6 @@ export function showFullHelp(): void {
     "  mint list --category color         List tokens in a category",
     "  mint tokens --category typography  Output raw DTCG data",
     "  mint export -o tokens.json         Export tokens to a file",
-    "  mint mcp-schema --json             Output MCP schema as JSON",
     "",
     "Flags:",
     ...GLOBAL_FLAGS.map((f) => `  ${f}`),
