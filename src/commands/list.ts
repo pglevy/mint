@@ -51,7 +51,11 @@ export async function listCommand(
 
   // Interactive prompting: prompt for category when missing
   if (category === undefined) {
-    if (Deno.stdin.isTerminal()) {
+    // Skip interactive prompt when output is piped/redirected (--json or non-TTY stdout)
+    const isInteractive = Deno.stdin.isTerminal() && Deno.stdout.isTerminal() &&
+      !globals.json;
+
+    if (isInteractive) {
       const selected = await promptSelect({
         message: "Select a category:",
         choices: [...VALID_CATEGORIES],
@@ -60,6 +64,9 @@ export async function listCommand(
         Deno.exit(1);
       }
       category = selected;
+    } else if (globals.json) {
+      // In JSON mode without a category, output all tokens
+      category = undefined;
     } else {
       writer.stderr(
         "Error: --category is required when stdin is not a TTY",

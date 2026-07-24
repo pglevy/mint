@@ -54,7 +54,10 @@ export async function tokensCommand(
 
   // Interactive prompting for --category when missing
   if (category === undefined) {
-    if (Deno.stdin.isTerminal()) {
+    const isInteractive = Deno.stdin.isTerminal() &&
+      Deno.stdout.isTerminal();
+
+    if (isInteractive) {
       const selected = await promptSelect({
         message: "Select a category:",
         choices: [...VALID_CATEGORIES],
@@ -63,6 +66,9 @@ export async function tokensCommand(
         Deno.exit(1);
       }
       category = selected;
+    } else if (!Deno.stdout.isTerminal()) {
+      // Output is piped/redirected — dump all categories
+      category = undefined;
     } else {
       writer.stderr(
         "Error: --category is required when stdin is not a TTY",
@@ -81,9 +87,11 @@ export async function tokensCommand(
   store.loadFromJSON(json);
 
   // Interactive prompting for --family when category is known but family is missing
-  if (family === undefined) {
+  if (family === undefined && category !== undefined) {
     const families = store.getFamilies(category as TokenCategory);
-    if (families.length > 0 && Deno.stdin.isTerminal()) {
+    const isInteractive = Deno.stdin.isTerminal() &&
+      Deno.stdout.isTerminal();
+    if (families.length > 0 && isInteractive) {
       const selected = await promptSelect({
         message: `Select a family in "${category}":`,
         choices: families,
@@ -93,8 +101,7 @@ export async function tokensCommand(
       }
       family = selected;
     }
-    // If not a TTY and family is missing, we don't error — family is optional
-    // (only category is required per REQ-13)
+    // If not interactive and family is missing, we don't error — family is optional
   }
 
   // Query store based on provided filters
