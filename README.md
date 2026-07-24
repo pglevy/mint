@@ -1,6 +1,6 @@
 # Mint CLI
 
-A CLI tool for querying and exporting
+A command-line tool for querying and exporting
 [Sailwind](https://github.com/pglevy/sailwind) design tokens. Tokens are fetched
 directly from the published token source — no local Sailwind install needed.
 
@@ -42,6 +42,18 @@ mint --help
 ```
 
 To update after code changes, re-run the install command with `-f` (force).
+
+## Agents
+
+Add a note to your global agent file (e.g., CLAUDE.md) to use `mint` for checking design token preferences.
+
+For example:
+
+```
+## Design Preferences
+
+Unless specified otherwise, use `mint` cli tool to look up preferred values for color (including gradient), spacing, and typography. Start with `-h` flag to see what's available.
+```
 
 ## Usage
 
@@ -140,6 +152,6 @@ mint/
 └── gitignore/             # Local workspace files (not in version control)
 ```
 
-## Repository
+## Inspo
 
-<https://github.com/pglevy/mint>
+<https://clig.dev/>
