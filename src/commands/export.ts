@@ -1,46 +1,76 @@
-import fs from 'node:fs';
-import type { TokenStore } from '../store/token-store.js';
-import type { TokenCategory } from '../types.js';
-import { VALID_CATEGORIES } from '../types.js';
+import { parseArgs } from "@std/cli";
+import { type TokenCategory, VALID_CATEGORIES } from "../types.ts";
+import { FileWriteError, ValidationError } from "../errors.ts";
+import { TokenStore } from "../store/token-store.ts";
+import { fetchTokens, TOKENS_URL } from "../store/fetcher.ts";
+import { createColorContext } from "../output/color.ts";
+import { createWriter } from "../output/writer.ts";
 
-export interface ExportCommandOptions {
-  out?: string;
-  category?: string;
-  json?: boolean;
+interface GlobalOptions {
+  json: boolean;
+  quiet: boolean;
+  noColor: boolean;
+  debug: boolean;
+  help: boolean;
+  version: boolean;
 }
 
-export function exportCommand(store: TokenStore, options: ExportCommandOptions): void {
-  // 1. Validate category if provided
-  if (options.category) {
-    if (!VALID_CATEGORIES.includes(options.category as TokenCategory)) {
-      const msg = `Error: Unknown category "${options.category}". Valid categories: ${VALID_CATEGORIES.join(', ')}`;
-      process.stderr.write(msg + '\n');
-      if (options.json) {
-        process.stdout.write(JSON.stringify({ error: msg }) + '\n');
-      }
-      process.exit(1);
+/**
+ * The `export` command: generates DTCG JSON and writes to stdout or a file.
+ * Validates --category, fetches tokens, and outputs the result.
+ */
+export async function exportCommand(
+  args: string[],
+  globals: GlobalOptions,
+): Promise<void> {
+  const color = createColorContext({ noColor: globals.noColor });
+  const writer = createWriter(
+    { quiet: globals.quiet, json: globals.json },
+    color,
+  );
+
+  // Parse subcommand-specific flags
+  const parsed = parseArgs(args, {
+    string: ["category", "output"],
+    alias: { c: "category", o: "output" },
+  });
+
+  const category = parsed.category;
+  const outputPath = parsed.output;
+
+  // Validate --category if provided
+  if (category !== undefined) {
+    if (!VALID_CATEGORIES.includes(category as TokenCategory)) {
+      throw new ValidationError(
+        `Unknown category "${category}".`,
+        `Valid categories: ${VALID_CATEGORIES.join(", ")}`,
+      );
     }
   }
 
-  const category = options.category as TokenCategory | undefined;
+  const validatedCategory = category as TokenCategory | undefined;
 
-  // 2. Get JSON output
-  const jsonOutput = store.toJSON(category);
+  // Fetch tokens and load into store
+  const json = await fetchTokens(TOKENS_URL);
+  const store = new TokenStore();
+  store.loadFromJSON(json);
 
-  // 3. Write to file or stdout
-  if (options.out) {
+  // Generate DTCG JSON
+  const dtcgJson = store.toJSON(validatedCategory);
+
+  // Output to file or stdout
+  if (outputPath) {
     try {
-      fs.writeFileSync(options.out, jsonOutput + '\n', 'utf-8');
-      process.stderr.write(`Exported to ${options.out}\n`);
-    } catch {
-      const msg = `Error: Cannot write to ${options.out}`;
-      process.stderr.write(msg + '\n');
-      if (options.json) {
-        process.stdout.write(JSON.stringify({ error: msg }) + '\n');
-      }
-      process.exit(1);
+      await Deno.writeTextFile(outputPath, dtcgJson + "\n");
+    } catch (_err: unknown) {
+      throw new FileWriteError(
+        `Cannot write to "${outputPath}".`,
+        "Check that the directory exists and you have write permissions.",
+      );
     }
+    // Confirm on stderr unless --quiet
+    writer.stderr(`Wrote tokens to ${outputPath}`);
   } else {
-    process.stdout.write(jsonOutput + '\n');
+    writer.stdout(dtcgJson);
   }
 }

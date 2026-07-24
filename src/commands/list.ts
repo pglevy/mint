@@ -1,37 +1,97 @@
-import type { TokenStore } from '../store/token-store.js';
-import type { TokenCategory } from '../types.js';
-import { VALID_CATEGORIES } from '../types.js';
+import { parseArgs } from "@std/cli";
+import { type TokenCategory, VALID_CATEGORIES } from "../types.ts";
+import { ValidationError } from "../errors.ts";
+import { TokenStore } from "../store/token-store.ts";
+import { fetchTokens, TOKENS_URL } from "../store/fetcher.ts";
+import { formatValue } from "../output/format-value.ts";
+import { createColorContext } from "../output/color.ts";
+import { createWriter } from "../output/writer.ts";
+import { promptSelect } from "../prompt/select.ts";
 
-export interface ListCommandOptions {
-  category?: string;
-  json?: boolean;
+interface GlobalOptions {
+  json: boolean;
+  quiet: boolean;
+  noColor: boolean;
+  debug: boolean;
+  help: boolean;
+  version: boolean;
 }
 
-export function listCommand(store: TokenStore, options: ListCommandOptions): void {
-  // 1. Validate category if provided
-  if (options.category) {
-    if (!VALID_CATEGORIES.includes(options.category as TokenCategory)) {
-      const msg = `Error: Unknown category "${options.category}". Valid categories: ${VALID_CATEGORIES.join(', ')}`;
-      process.stderr.write(msg + '\n');
-      if (options.json) {
-        process.stdout.write(JSON.stringify({ error: msg }) + '\n');
-      }
-      process.exit(1);
+/**
+ * The `list` command: displays all tokens in human-readable or JSON format,
+ * optionally filtered by category.
+ */
+export async function listCommand(
+  args: string[],
+  globals: GlobalOptions,
+): Promise<void> {
+  const color = createColorContext({ noColor: globals.noColor });
+  const writer = createWriter(
+    { quiet: globals.quiet, json: globals.json },
+    color,
+  );
+
+  // Parse subcommand-specific flags
+  const parsed = parseArgs(args, {
+    string: ["category"],
+    alias: { c: "category" },
+  });
+
+  let category = parsed.category;
+
+  // Validate --category if provided
+  if (category !== undefined) {
+    if (!VALID_CATEGORIES.includes(category as TokenCategory)) {
+      throw new ValidationError(
+        `Unknown category "${category}".`,
+        `Valid categories: ${VALID_CATEGORIES.join(", ")}`,
+      );
     }
   }
 
-  const validatedCategory = options.category as TokenCategory | undefined;
+  // Interactive prompting: prompt for category when missing
+  if (category === undefined) {
+    // Skip interactive prompt when output is piped/redirected (--json or non-TTY stdout)
+    const isInteractive = Deno.stdin.isTerminal() && Deno.stdout.isTerminal() &&
+      !globals.json;
 
-  // 2. Get flat token list
+    if (isInteractive) {
+      const selected = await promptSelect({
+        message: "Select a category:",
+        choices: [...VALID_CATEGORIES],
+      });
+      if (selected === null) {
+        Deno.exit(1);
+      }
+      category = selected;
+    } else if (globals.json) {
+      // In JSON mode without a category, output all tokens
+      category = undefined;
+    } else {
+      writer.stderr(
+        "Error: --category is required when stdin is not a TTY",
+      );
+      Deno.exit(1);
+    }
+  }
+
+  const validatedCategory = category as TokenCategory | undefined;
+
+  // Fetch tokens and load into store
+  const json = await fetchTokens(TOKENS_URL);
+  const store = new TokenStore();
+  store.loadFromJSON(json);
+
+  // Get token entries
   const tokens = store.listTokens(validatedCategory);
 
-  // 3. JSON mode — output as JSON array
-  if (options.json) {
-    process.stdout.write(JSON.stringify(tokens, null, 2) + '\n');
+  // JSON mode: output token array
+  if (globals.json) {
+    writer.json(tokens);
     return;
   }
 
-  // 4. Human-readable mode — group by category
+  // Human-readable mode: group by category with colored headers and aligned columns
   const grouped = new Map<TokenCategory, typeof tokens>();
   for (const token of tokens) {
     const list = grouped.get(token.category) ?? [];
@@ -39,10 +99,74 @@ export function listCommand(store: TokenStore, options: ListCommandOptions): voi
     grouped.set(token.category, list);
   }
 
-  for (const [category, categoryTokens] of grouped) {
-    process.stdout.write(`\n  ${category} (${categoryTokens.length} tokens):\n`);
-    for (const token of categoryTokens) {
-      process.stdout.write(`    ${token.path}  ${token.value}  (${token.type})\n`);
+  for (const [cat, categoryTokens] of grouped) {
+    // Show category header unless --quiet
+    if (!globals.quiet) {
+      const header = color.category(
+        `${cat} (${categoryTokens.length} tokens)`,
+        cat,
+      );
+      writer.stdout("");
+      writer.stdout(`  ${header}`);
+    }
+
+    // Strip the category prefix from paths (e.g., "spacing.radius.sm" → "radius.sm")
+    const stripPrefix = (path: string) => {
+      const dotIdx = path.indexOf(".");
+      return dotIdx >= 0 ? path.slice(dotIdx + 1) : path;
+    };
+
+    // Extract the family (first segment) from a stripped path
+    const getFamily = (path: string) => {
+      const dotIdx = path.indexOf(".");
+      return dotIdx >= 0 ? path.slice(0, dotIdx) : path;
+    };
+
+    // Extract a sortable numeric value from a token
+    const numericValue = (token: typeof categoryTokens[0]): number => {
+      if (typeof token.value === "number") return token.value;
+      if (typeof token.value === "string") {
+        const n = parseFloat(token.value);
+        if (!isNaN(n)) return n;
+      }
+      if (typeof token.value === "object" && token.value !== null) {
+        // For composite tokens, try the "value" key if present
+        const v = (token.value as Record<string, unknown>)["value"];
+        if (typeof v === "number") return v;
+        if (typeof v === "string") {
+          const n = parseFloat(v);
+          if (!isNaN(n)) return n;
+        }
+      }
+      return Infinity;
+    };
+
+    // Sort: primary by family (alpha), secondary by numeric value (low to high)
+    const sorted = [...categoryTokens].sort((a, b) => {
+      const famA = getFamily(stripPrefix(a.path));
+      const famB = getFamily(stripPrefix(b.path));
+      const famCmp = famA.localeCompare(famB);
+      if (famCmp !== 0) return famCmp;
+
+      return numericValue(a) - numericValue(b);
+    });
+
+    // Calculate column width for alignment
+    const strippedPaths = sorted.map((t) => stripPrefix(t.path));
+    const maxPath = Math.max(...strippedPaths.map((p) => p.length));
+
+    for (let i = 0; i < sorted.length; i++) {
+      // Add blank line between families
+      if (i > 0) {
+        const prevFamily = getFamily(strippedPaths[i - 1]);
+        const currFamily = getFamily(strippedPaths[i]);
+        if (prevFamily !== currFamily) {
+          writer.stdout("");
+        }
+      }
+      const formattedValue = formatValue(sorted[i].value);
+      const paddedPath = strippedPaths[i].padEnd(maxPath);
+      writer.stdout(`    ${paddedPath}  ${formattedValue}`);
     }
   }
 }
