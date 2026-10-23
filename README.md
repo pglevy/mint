@@ -6,31 +6,35 @@ directly from the published token source — no local Sailwind install needed.
 
 ## Prerequisites
 
-- [Deno](https://deno.com/) 2.x or later
+- [Go](https://go.dev/) 1.24 or later
 
 ## Quick Start
 
 ```bash
 git clone https://github.com/pglevy/mint.git
 cd mint
-deno task start list
+go run . list --category color
 ```
-
-No install step required — Deno runs TypeScript directly.
 
 ## Installing as a Global Command
 
-To use `mint` directly from anywhere (instead of `deno task start`):
+To use `mint` directly from anywhere:
 
 ```bash
-deno install -f --allow-net=raw.githubusercontent.com --allow-env --name mint main.ts
+go install github.com/pglevy/mint@latest
 ```
 
-This places a `mint` executable in `~/.deno/bin/`. Make sure that's on your
-PATH:
+This places a `mint` executable in `$(go env GOPATH)/bin` (usually
+`~/go/bin`). Make sure that's on your PATH:
 
 ```bash
-export PATH="$HOME/.deno/bin:$PATH"  # add to ~/.zshrc if not already there
+export PATH="$HOME/go/bin:$PATH"  # add to ~/.zshrc if not already there
+```
+
+Or install from a local clone, which is also how you pick up code changes:
+
+```bash
+go install .
 ```
 
 Then you can run:
@@ -40,8 +44,6 @@ mint list --category color
 mint export -o tokens.json
 mint --help
 ```
-
-To update after code changes, re-run the install command with `-f` (force).
 
 ## Agents
 
@@ -59,25 +61,25 @@ Unless specified otherwise, use `mint` cli tool to look up preferred values for 
 
 ```bash
 # List all tokens
-deno task start list
+mint list
 
 # Filter by category
-deno task start list --category color
-deno task start list --category typography
-deno task start list --category spacing
+mint list --category color
+mint list --category typography
+mint list --category spacing
 
 # Query tokens as DTCG JSON
-deno task start tokens
-deno task start tokens --category color --family red
+mint tokens
+mint tokens --category color --family red
 
 # Export full token set to stdout
-deno task start export
+mint export
 
 # Export to file, filtered by category
-deno task start export -o tokens.json --category spacing
+mint export -o tokens.json --category spacing
 
 # JSON output for piping
-deno task start list --category color --json | jq '.[] | .path'
+mint list --category color --json | jq '.[] | .path'
 ```
 
 ## Global Options
@@ -93,63 +95,57 @@ deno task start list --category color --json | jq '.[] | .path'
 
 ## Commands
 
-| Command      | Description                                                             |
-| ------------ | ----------------------------------------------------------------------- |
-| `list`       | List tokens grouped by category with name, value, and type              |
-| `tokens`     | Query tokens with `--category` and `--family` filters, output DTCG JSON |
-| `export`     | Export DTCG JSON to stdout or `-o <file>`                               |
+| Command  | Description                                                             |
+| -------- | ----------------------------------------------------------------------- |
+| `list`   | List tokens grouped by category with name, value, and type              |
+| `tokens` | Query tokens with `--category` and `--family` filters, output DTCG JSON |
+| `export` | Export DTCG JSON to stdout or `-o <file>`                               |
 
 ## Development
 
 ```bash
 # Run tests
-deno task test
+go test ./...
 
-# Lint
-deno task lint
+# Vet
+go vet ./...
 
-# Format
-deno task fmt
+# Format (lists files that need formatting)
+gofmt -l .
 
-# Type check
-deno task check
+# Build a binary in the current directory
+go build -o mint .
+
+# Stamp a release version
+go build -ldflags "-X github.com/pglevy/mint/internal/cli.Version=1.0.0" -o mint .
 ```
+
+The tests need no network access: the commands run against a fixture token
+file, and `internal/cli/testdata/golden/` holds expected output captured from
+the original Deno implementation.
 
 ## Project Structure
 
 ```
 mint/
-├── deno.json              # Config, imports, tasks
-├── deno.lock
-├── main.ts                # Entry point
-├── src/
-│   ├── types.ts           # Shared types (DTCGToken, DTCGGroup, TokenCategory)
-│   ├── errors.ts          # Error classes, suggestCommand()
-│   ├── store/
-│   │   ├── token-store.ts # TokenStore class
-│   │   └── fetcher.ts     # Network fetch isolation
-│   ├── commands/
-│   │   ├── list.ts
-│   │   ├── tokens.ts
-│   │   └── export.ts
-│   ├── output/
-│   │   ├── format-value.ts
-│   │   ├── color.ts
-│   │   └── writer.ts
-│   ├── help/
-│   │   └── help.ts
-│   └── prompt/
-│       └── select.ts
-├── tests/
-│   ├── store/
-│   │   └── token-store.test.ts
-│   ├── output/
-│   │   └── format-value.test.ts
-│   ├── commands/
-│   │   └── integration.test.ts
-│   └── property/
-│       └── round-trip.test.ts
-└── gitignore/             # Local workspace files (not in version control)
+├── go.mod
+├── main.go                    # Entry point
+├── main_test.go               # Builds and runs the real binary
+└── internal/
+    ├── cli/                   # Routing, global flags, error reporting
+    │   ├── cli.go
+    │   ├── list.go
+    │   ├── tokens.go
+    │   ├── export.go
+    │   └── testdata/          # Fixture tokens + golden command output
+    ├── args/                  # Argument parsing (same rules as Deno's parseArgs)
+    ├── tokens/                # Token store, DTCG flattening, fetcher
+    ├── jsonv/                 # JSON with JavaScript key order and formatting
+    ├── jsnum/                 # JavaScript number formatting and parsing
+    ├── output/                # Color, writer, value formatting
+    ├── prompt/                # Interactive arrow-key select
+    ├── help/                  # Help text
+    └── errs/                  # User-facing errors, "did you mean" suggestions
 ```
 
 ## Inspo

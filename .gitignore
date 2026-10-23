@@ -1,5 +1,5 @@
-node_modules/
+/mint
+/mint.exe
 dist/
-*.tsbuildinfo
 .kiro/specs
 .kiro/skills
