@@ -1,0 +1,174 @@
+args: ["--json", "list", "--category", "typography"]
+exit: 0
+--- stdout ---
+[
+  {
+    "path": "typography.text-size.2xl",
+    "value": {
+      "value": 1.5,
+      "unit": "rem"
+    },
+    "type": "dimension",
+    "category": "typography"
+  },
+  {
+    "path": "typography.text-size.xs",
+    "value": {
+      "value": 0.75,
+      "unit": "rem"
+    },
+    "type": "dimension",
+    "category": "typography"
+  },
+  {
+    "path": "typography.text-size.base",
+    "value": "{typography.text-size.sm}",
+    "type": "dimension",
+    "category": "typography"
+  },
+  {
+    "path": "typography.text-size.sm",
+    "value": "0.875rem",
+    "type": "dimension",
+    "category": "typography"
+  },
+  {
+    "path": "typography.font-family.base",
+    "value": [
+      "Open Sans",
+      "system-ui",
+      "sans-serif"
+    ],
+    "type": "fontFamily",
+    "category": "typography"
+  },
+  {
+    "path": "typography.font-family.mono",
+    "value": [],
+    "type": "fontFamily",
+    "category": "typography"
+  },
+  {
+    "path": "typography.font-weight.bold",
+    "value": 700,
+    "type": "fontWeight",
+    "category": "typography"
+  },
+  {
+    "path": "typography.font-weight.base",
+    "value": 400,
+    "type": "fontWeight",
+    "category": "typography"
+  },
+  {
+    "path": "typography.heading.lg",
+    "value": {
+      "fontSize": "2rem",
+      "lineHeight": 1.25,
+      "fontWeight": "700"
+    },
+    "type": "typography",
+    "category": "typography"
+  },
+  {
+    "path": "typography.heading.xl",
+    "value": {
+      "fontSize": "3rem",
+      "shadow": {
+        "y": 4,
+        "x": 0
+      },
+      "tags": [
+        "a",
+        "b"
+      ],
+      "flag": true,
+      "none": null
+    },
+    "type": "typography",
+    "category": "typography"
+  },
+  {
+    "path": "typography.heading.sm",
+    "value": {
+      "value": "12",
+      "unit": "px",
+      "extra": 1
+    },
+    "type": "typography",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.e21",
+    "value": 1e+21,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.e-7",
+    "value": 1e-7,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.tenth",
+    "value": 0.1,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.hundred",
+    "value": 100,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.one_point_zero",
+    "value": 1,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.big",
+    "value": 123456789012345680000,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.neg",
+    "value": -2.5,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.tiny",
+    "value": 0.000001,
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.mix",
+    "value": "1e3x",
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.ws",
+    "value": "  12px",
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.edge.dot5",
+    "value": ".5em",
+    "type": "number",
+    "category": "typography"
+  },
+  {
+    "path": "typography.strings.esc",
+    "value": "quote \" backslash \\ tab \t nl \n cr \r bell \u0007 del ",
+    "type": "string",
+    "category": "typography"
+  }
+]
+--- stderr ---

@@ -1,0 +1,143 @@
+args: ["export", "-c", "typography", "--json"]
+exit: 0
+--- stdout ---
+{
+  "typography": {
+    "text-size": {
+      "2xl": {
+        "$value": {
+          "value": 1.5,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "xs": {
+        "$value": {
+          "value": 0.75,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "base": {
+        "$value": "{typography.text-size.sm}",
+        "$type": "dimension"
+      },
+      "sm": {
+        "$value": "0.875rem",
+        "$type": "dimension"
+      }
+    },
+    "font-family": {
+      "base": {
+        "$value": [
+          "Open Sans",
+          "system-ui",
+          "sans-serif"
+        ],
+        "$type": "fontFamily"
+      },
+      "mono": {
+        "$value": [],
+        "$type": "fontFamily"
+      }
+    },
+    "font-weight": {
+      "bold": {
+        "$value": 700,
+        "$type": "fontWeight"
+      },
+      "base": {
+        "$value": 400,
+        "$type": "fontWeight"
+      }
+    },
+    "heading": {
+      "lg": {
+        "$value": {
+          "fontSize": "2rem",
+          "lineHeight": 1.25,
+          "fontWeight": "700"
+        },
+        "$type": "typography"
+      },
+      "xl": {
+        "$value": {
+          "fontSize": "3rem",
+          "shadow": {
+            "y": 4,
+            "x": 0
+          },
+          "tags": [
+            "a",
+            "b"
+          ],
+          "flag": true,
+          "none": null
+        },
+        "$type": "typography"
+      },
+      "sm": {
+        "$value": {
+          "value": "12",
+          "unit": "px",
+          "extra": 1
+        },
+        "$type": "typography"
+      }
+    },
+    "edge": {
+      "e21": {
+        "$value": 1e+21,
+        "$type": "number"
+      },
+      "e-7": {
+        "$value": 1e-7,
+        "$type": "number"
+      },
+      "tenth": {
+        "$value": 0.1,
+        "$type": "number"
+      },
+      "hundred": {
+        "$value": 100,
+        "$type": "number"
+      },
+      "one_point_zero": {
+        "$value": 1,
+        "$type": "number"
+      },
+      "big": {
+        "$value": 123456789012345680000,
+        "$type": "number"
+      },
+      "neg": {
+        "$value": -2.5,
+        "$type": "number"
+      },
+      "tiny": {
+        "$value": 0.000001,
+        "$type": "number"
+      },
+      "mix": {
+        "$value": "1e3x",
+        "$type": "number"
+      },
+      "ws": {
+        "$value": "  12px",
+        "$type": "number"
+      },
+      "dot5": {
+        "$value": ".5em",
+        "$type": "number"
+      }
+    },
+    "strings": {
+      "esc": {
+        "$value": "quote \" backslash \\ tab \t nl \n cr \r bell \u0007 del ",
+        "$type": "string",
+        "$description": "<b>&amp;</b> ' ü 日本 😀   sep"
+      }
+    }
+  }
+}
+--- stderr ---

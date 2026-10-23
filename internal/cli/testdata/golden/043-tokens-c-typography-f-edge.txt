@@ -1,0 +1,50 @@
+args: ["tokens", "-c", "typography", "-f", "edge"]
+exit: 0
+--- stdout ---
+{
+  "e21": {
+    "$value": 1e+21,
+    "$type": "number"
+  },
+  "e-7": {
+    "$value": 1e-7,
+    "$type": "number"
+  },
+  "tenth": {
+    "$value": 0.1,
+    "$type": "number"
+  },
+  "hundred": {
+    "$value": 100,
+    "$type": "number"
+  },
+  "one_point_zero": {
+    "$value": 1,
+    "$type": "number"
+  },
+  "big": {
+    "$value": 123456789012345680000,
+    "$type": "number"
+  },
+  "neg": {
+    "$value": -2.5,
+    "$type": "number"
+  },
+  "tiny": {
+    "$value": 0.000001,
+    "$type": "number"
+  },
+  "mix": {
+    "$value": "1e3x",
+    "$type": "number"
+  },
+  "ws": {
+    "$value": "  12px",
+    "$type": "number"
+  },
+  "dot5": {
+    "$value": ".5em",
+    "$type": "number"
+  }
+}
+--- stderr ---

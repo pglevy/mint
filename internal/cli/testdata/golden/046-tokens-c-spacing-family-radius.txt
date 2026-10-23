@@ -1,0 +1,38 @@
+args: ["tokens", "-c", "spacing", "--family=radius"]
+exit: 0
+--- stdout ---
+{
+  "md": {
+    "$value": {
+      "value": 0.5,
+      "unit": "rem"
+    },
+    "$type": "dimension",
+    "$description": "ROUNDED"
+  },
+  "none": {
+    "$value": {
+      "value": 0,
+      "unit": "px"
+    },
+    "$type": "dimension",
+    "$description": "SQUARED"
+  },
+  "sm": {
+    "$value": {
+      "value": 0.25,
+      "unit": "rem"
+    },
+    "$type": "dimension",
+    "$description": "SEMI"
+  },
+  "full": {
+    "$value": "9999px",
+    "$type": "dimension"
+  },
+  "weird": {
+    "$value": "auto",
+    "$type": "dimension"
+  }
+}
+--- stderr ---

@@ -1,0 +1,93 @@
+args: ["tokens", "--category", "color"]
+exit: 0
+--- stdout ---
+{
+  "red": {
+    "50": {
+      "$value": "#fef2f2",
+      "$type": "color",
+      "$description": "Red 50"
+    },
+    "100": {
+      "$value": "#fee2e2",
+      "$type": "color",
+      "$description": "Red 100"
+    },
+    "500": {
+      "$value": "#ef4444",
+      "$type": "color",
+      "$description": "Red 500"
+    },
+    "900": {
+      "$value": "#7f1d1d",
+      "$type": "color",
+      "$description": "Red 900"
+    },
+    "DEFAULT": {
+      "$value": "#ef4444",
+      "$type": "color"
+    }
+  },
+  "burnt-orange": {
+    "500": {
+      "$value": "#c2410c",
+      "$type": "color"
+    }
+  },
+  "Brand": {
+    "main": {
+      "$value": "#123456",
+      "$type": "color",
+      "$description": "uppercase family"
+    }
+  },
+  "brand_alt": {
+    "main": {
+      "$value": "#654321",
+      "$type": "color",
+      "$description": "underscore family"
+    }
+  },
+  "accent": {
+    "main": {
+      "$value": "#abcdef",
+      "$type": "color"
+    },
+    "hover": {
+      "$value": "#fedcba",
+      "$type": "color"
+    }
+  },
+  "semantic": {
+    "text": {
+      "primary": {
+        "$value": "{color.gray.900}",
+        "$type": "color"
+      },
+      "muted": {
+        "$value": "{color.gray.500}",
+        "$type": "color"
+      }
+    },
+    "bg": {
+      "$value": "{color.white}",
+      "$type": "color"
+    }
+  },
+  "gray": {
+    "500": {
+      "$value": "#6b7280",
+      "$type": "color"
+    },
+    "900": {
+      "$value": "#111827",
+      "$type": "color"
+    }
+  },
+  "black": {
+    "$value": "#000000",
+    "$type": "color",
+    "$description": "a token directly under the category"
+  }
+}
+--- stderr ---

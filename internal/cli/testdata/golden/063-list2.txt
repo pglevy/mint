@@ -1,0 +1,8 @@
+args: ["list2"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Error: Unknown subcommand "list2".
+Valid subcommands: list, tokens, export
+
+Did you mean "list"?

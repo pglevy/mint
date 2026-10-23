@@ -1,0 +1,50 @@
+args: ["export", "-c", "gradient"]
+exit: 0
+--- stdout ---
+{
+  "gradient": {
+    "header-bg": {
+      "$value": [
+        {
+          "color": "{color.blue.500}",
+          "position": 0
+        },
+        {
+          "color": "#ff00ff",
+          "position": 0.575
+        },
+        {
+          "color": "rgba(255,255,255,0.5)",
+          "position": 1
+        }
+      ],
+      "$type": "gradient"
+    },
+    "odd": {
+      "$value": [
+        {
+          "color": "#fff",
+          "position": 0.005
+        },
+        {
+          "color": "#000",
+          "position": 0.125
+        },
+        {
+          "color": "#111",
+          "position": 0.995
+        }
+      ],
+      "$type": "gradient"
+    },
+    "not-stops": {
+      "$value": [
+        1,
+        2,
+        3
+      ],
+      "$type": "gradient"
+    }
+  }
+}
+--- stderr ---

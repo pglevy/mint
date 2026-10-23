@@ -1,0 +1,11 @@
+args: ["list", "-c", "gradient"]
+exit: 0
+--- stdout ---
+
+  gradient (3 tokens)
+    header-bg  0% {color.blue.500} · 57% #ff00ff · 100% rgba(255,255,255,0.5)
+
+    not-stops  [1,2,3]
+
+    odd        1% #fff · 13% #000 · 100% #111
+--- stderr ---

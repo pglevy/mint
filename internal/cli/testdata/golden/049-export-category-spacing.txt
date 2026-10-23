@@ -1,0 +1,79 @@
+args: ["export", "--category", "spacing"]
+exit: 0
+--- stdout ---
+{
+  "spacing": {
+    "radius": {
+      "md": {
+        "$value": {
+          "value": 0.5,
+          "unit": "rem"
+        },
+        "$type": "dimension",
+        "$description": "ROUNDED"
+      },
+      "none": {
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "SQUARED"
+      },
+      "sm": {
+        "$value": {
+          "value": 0.25,
+          "unit": "rem"
+        },
+        "$type": "dimension",
+        "$description": "SEMI"
+      },
+      "full": {
+        "$value": "9999px",
+        "$type": "dimension"
+      },
+      "weird": {
+        "$value": "auto",
+        "$type": "dimension"
+      }
+    },
+    "margin": {
+      "lg": {
+        "$value": "2rem",
+        "$type": "dimension"
+      },
+      "sm": {
+        "$value": "0.25rem",
+        "$type": "dimension"
+      },
+      "sm2": {
+        "$value": "0.25rem",
+        "$type": "dimension",
+        "$description": "ties keep source order"
+      },
+      "md": {
+        "$value": "1rem",
+        "$type": "dimension"
+      }
+    },
+    "padding": {
+      "1": {
+        "$value": "1px",
+        "$type": "dimension"
+      },
+      "2": {
+        "$value": "2px",
+        "$type": "dimension"
+      },
+      "10": {
+        "$value": "10px",
+        "$type": "dimension"
+      },
+      "DEFAULT": {
+        "$value": "4px",
+        "$type": "dimension"
+      }
+    }
+  }
+}
+--- stderr ---

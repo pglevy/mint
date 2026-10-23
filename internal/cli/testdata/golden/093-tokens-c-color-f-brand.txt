@@ -1,0 +1,11 @@
+args: ["tokens", "-c", "color", "-f", "Brand"]
+exit: 0
+--- stdout ---
+{
+  "main": {
+    "$value": "#123456",
+    "$type": "color",
+    "$description": "uppercase family"
+  }
+}
+--- stderr ---

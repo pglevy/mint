@@ -1,0 +1,93 @@
+args: ["--json=true", "list", "-c", "spacing"]
+exit: 0
+--- stdout ---
+[
+  {
+    "path": "spacing.radius.md",
+    "value": {
+      "value": 0.5,
+      "unit": "rem"
+    },
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.radius.none",
+    "value": {
+      "value": 0,
+      "unit": "px"
+    },
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.radius.sm",
+    "value": {
+      "value": 0.25,
+      "unit": "rem"
+    },
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.radius.full",
+    "value": "9999px",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.radius.weird",
+    "value": "auto",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.margin.lg",
+    "value": "2rem",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.margin.sm",
+    "value": "0.25rem",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.margin.sm2",
+    "value": "0.25rem",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.margin.md",
+    "value": "1rem",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.padding.1",
+    "value": "1px",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.padding.2",
+    "value": "2px",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.padding.10",
+    "value": "10px",
+    "type": "dimension",
+    "category": "spacing"
+  },
+  {
+    "path": "spacing.padding.DEFAULT",
+    "value": "4px",
+    "type": "dimension",
+    "category": "spacing"
+  }
+]
+--- stderr ---

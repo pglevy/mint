@@ -1,0 +1,38 @@
+args: ["tokens", "-c", "typography", "-f", "heading"]
+exit: 0
+--- stdout ---
+{
+  "lg": {
+    "$value": {
+      "fontSize": "2rem",
+      "lineHeight": 1.25,
+      "fontWeight": "700"
+    },
+    "$type": "typography"
+  },
+  "xl": {
+    "$value": {
+      "fontSize": "3rem",
+      "shadow": {
+        "y": 4,
+        "x": 0
+      },
+      "tags": [
+        "a",
+        "b"
+      ],
+      "flag": true,
+      "none": null
+    },
+    "$type": "typography"
+  },
+  "sm": {
+    "$value": {
+      "value": "12",
+      "unit": "px",
+      "extra": 1
+    },
+    "$type": "typography"
+  }
+}
+--- stderr ---

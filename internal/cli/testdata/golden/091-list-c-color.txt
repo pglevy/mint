@@ -1,0 +1,6 @@
+args: ["list", "-c", "Color"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Unknown category "Color".
+Valid categories: color, gradient, typography, spacing

@@ -1,0 +1,20 @@
+args: ["tokens", "--category", "color", "--family", "semantic"]
+exit: 0
+--- stdout ---
+{
+  "text": {
+    "primary": {
+      "$value": "{color.gray.900}",
+      "$type": "color"
+    },
+    "muted": {
+      "$value": "{color.gray.500}",
+      "$type": "color"
+    }
+  },
+  "bg": {
+    "$value": "{color.white}",
+    "$type": "color"
+  }
+}
+--- stderr ---

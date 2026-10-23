@@ -1,0 +1,11 @@
+args: ["tokens", "-c", "color", "-f", "brand_alt"]
+exit: 0
+--- stdout ---
+{
+  "main": {
+    "$value": "#654321",
+    "$type": "color",
+    "$description": "underscore family"
+  }
+}
+--- stderr ---

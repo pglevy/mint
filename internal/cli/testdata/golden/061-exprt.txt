@@ -1,0 +1,8 @@
+args: ["exprt"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Error: Unknown subcommand "exprt".
+Valid subcommands: list, tokens, export
+
+Did you mean "export"?

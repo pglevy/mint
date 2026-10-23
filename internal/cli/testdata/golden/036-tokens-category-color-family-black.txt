@@ -1,0 +1,11 @@
+args: ["tokens", "--category", "color", "--family", "black"]
+exit: 0
+--- stdout ---
+{
+  "black": {
+    "$value": "#000000",
+    "$type": "color",
+    "$description": "a token directly under the category"
+  }
+}
+--- stderr ---

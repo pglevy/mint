@@ -1,0 +1,30 @@
+args: ["tokens", "-c", "color", "-f", "red"]
+exit: 0
+--- stdout ---
+{
+  "50": {
+    "$value": "#fef2f2",
+    "$type": "color",
+    "$description": "Red 50"
+  },
+  "100": {
+    "$value": "#fee2e2",
+    "$type": "color",
+    "$description": "Red 100"
+  },
+  "500": {
+    "$value": "#ef4444",
+    "$type": "color",
+    "$description": "Red 500"
+  },
+  "900": {
+    "$value": "#7f1d1d",
+    "$type": "color",
+    "$description": "Red 900"
+  },
+  "DEFAULT": {
+    "$value": "#ef4444",
+    "$type": "color"
+  }
+}
+--- stderr ---

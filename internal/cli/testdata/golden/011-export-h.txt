@@ -1,0 +1,20 @@
+args: ["export", "-h"]
+exit: 0
+--- stdout ---
+mint export — Export tokens as DTCG JSON
+
+Examples:
+  mint export --category spacing -o tokens.json
+
+Flags:
+  --category <color|gradient|typography|spacing>  Filter by token category
+  -o, --output <path>                    Write output to a file
+
+Global Flags:
+  -h, --help       Show help
+  -v, --version    Show version
+      --json       Output as JSON
+  -q, --quiet      Suppress informational messages
+      --no-color   Disable color output
+      --debug      Show detailed error information
+--- stderr ---

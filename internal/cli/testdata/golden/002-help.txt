@@ -1,0 +1,26 @@
+args: ["--help"]
+exit: 0
+--- stdout ---
+Mint — query and export Sailwind design tokens.
+
+Examples:
+  mint list                          List all tokens
+  mint list --category color         List tokens in a category
+  mint tokens --category typography  Output raw DTCG data
+  mint export -o tokens.json         Export tokens to a file
+
+Flags:
+  -h, --help       Show help
+  -v, --version    Show version
+      --json       Output as JSON
+  -q, --quiet      Suppress informational messages
+      --no-color   Disable color output
+      --debug      Show detailed error information
+
+Subcommands:
+  list         List design tokens
+  tokens       Output raw DTCG token data
+  export       Export tokens as DTCG JSON
+
+Repository: https://github.com/pglevy/mint
+--- stderr ---

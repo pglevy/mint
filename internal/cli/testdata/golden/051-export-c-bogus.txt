@@ -1,0 +1,6 @@
+args: ["export", "-c", "bogus"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Unknown category "bogus".
+Valid categories: color, gradient, typography, spacing
