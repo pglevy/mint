@@ -1,0 +1,102 @@
+args: ["list", "--json", "--category", "color"]
+exit: 0
+--- stdout ---
+[
+  {
+    "path": "color.red.50",
+    "value": "#fef2f2",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.red.100",
+    "value": "#fee2e2",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.red.500",
+    "value": "#ef4444",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.red.900",
+    "value": "#7f1d1d",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.red.DEFAULT",
+    "value": "#ef4444",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.burnt-orange.500",
+    "value": "#c2410c",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.Brand.main",
+    "value": "#123456",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.brand_alt.main",
+    "value": "#654321",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.accent.main",
+    "value": "#abcdef",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.accent.hover",
+    "value": "#fedcba",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.semantic.text.primary",
+    "value": "{color.gray.900}",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.semantic.text.muted",
+    "value": "{color.gray.500}",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.semantic.bg",
+    "value": "{color.white}",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.gray.500",
+    "value": "#6b7280",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.gray.900",
+    "value": "#111827",
+    "type": "color",
+    "category": "color"
+  },
+  {
+    "path": "color.black",
+    "value": "#000000",
+    "type": "color",
+    "category": "color"
+  }
+]
+--- stderr ---

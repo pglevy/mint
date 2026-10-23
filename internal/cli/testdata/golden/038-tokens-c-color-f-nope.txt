@@ -1,0 +1,5 @@
+args: ["tokens", "-c", "color", "-f", "nope"]
+exit: 0
+--- stdout ---
+{}
+--- stderr ---

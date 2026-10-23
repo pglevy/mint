@@ -1,0 +1,9 @@
+args: ["list", "--category", "bogus", "--json"]
+exit: 1
+--- stdout ---
+{
+  "error": "Unknown category \"bogus\".\nValid categories: color, gradient, typography, spacing"
+}
+--- stderr ---
+Unknown category "bogus".
+Valid categories: color, gradient, typography, spacing

@@ -1,0 +1,20 @@
+args: ["tokens", "--help"]
+exit: 0
+--- stdout ---
+mint tokens — Output raw DTCG token data
+
+Examples:
+  mint tokens --category typography --family heading
+
+Flags:
+  --category <color|gradient|typography|spacing>  Filter by token category
+  --family <name>                        Filter by token family
+
+Global Flags:
+  -h, --help       Show help
+  -v, --version    Show version
+      --json       Output as JSON
+  -q, --quiet      Suppress informational messages
+      --no-color   Disable color output
+      --debug      Show detailed error information
+--- stderr ---

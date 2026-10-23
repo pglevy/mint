@@ -1,0 +1,19 @@
+args: ["list", "--help"]
+exit: 0
+--- stdout ---
+mint list — List design tokens
+
+Examples:
+  mint list --category color
+
+Flags:
+  --category <color|gradient|typography|spacing>  Filter by token category
+
+Global Flags:
+  -h, --help       Show help
+  -v, --version    Show version
+      --json       Output as JSON
+  -q, --quiet      Suppress informational messages
+      --no-color   Disable color output
+      --debug      Show detailed error information
+--- stderr ---

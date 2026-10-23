@@ -1,0 +1,19 @@
+args: ["list", "--category", "spacing", "--quiet"]
+exit: 0
+--- stdout ---
+    margin.sm        0.25rem
+    margin.sm2       0.25rem
+    margin.md        1rem
+    margin.lg        2rem
+
+    padding.1        1px
+    padding.2        2px
+    padding.DEFAULT  4px
+    padding.10       10px
+
+    radius.none      0px
+    radius.sm        0.25rem
+    radius.md        0.5rem
+    radius.full      9999px
+    radius.weird     auto
+--- stderr ---

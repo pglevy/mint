@@ -1,0 +1,6 @@
+args: ["foobar", "-q"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Error: Unknown subcommand "foobar".
+Valid subcommands: list, tokens, export

@@ -1,0 +1,29 @@
+args: ["list", "-c", "color", "extra", "positional"]
+exit: 0
+--- stdout ---
+
+  color (16 tokens)
+    accent.main            #abcdef
+    accent.hover           #fedcba
+
+    black                  #000000
+
+    Brand.main             #123456
+
+    brand_alt.main         #654321
+
+    burnt-orange.500       #c2410c
+
+    gray.500               #6b7280
+    gray.900               #111827
+
+    red.50                 #fef2f2
+    red.100                #fee2e2
+    red.500                #ef4444
+    red.900                #7f1d1d
+    red.DEFAULT            #ef4444
+
+    semantic.text.primary  {color.gray.900}
+    semantic.text.muted    {color.gray.500}
+    semantic.bg            {color.white}
+--- stderr ---

@@ -1,0 +1,8 @@
+args: ["lisst"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Error: Unknown subcommand "lisst".
+Valid subcommands: list, tokens, export
+
+Did you mean "list"?

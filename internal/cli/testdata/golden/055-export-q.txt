@@ -1,0 +1,349 @@
+args: ["export", "-q"]
+exit: 0
+--- stdout ---
+{
+  "color": {
+    "red": {
+      "50": {
+        "$value": "#fef2f2",
+        "$type": "color",
+        "$description": "Red 50"
+      },
+      "100": {
+        "$value": "#fee2e2",
+        "$type": "color",
+        "$description": "Red 100"
+      },
+      "500": {
+        "$value": "#ef4444",
+        "$type": "color",
+        "$description": "Red 500"
+      },
+      "900": {
+        "$value": "#7f1d1d",
+        "$type": "color",
+        "$description": "Red 900"
+      },
+      "DEFAULT": {
+        "$value": "#ef4444",
+        "$type": "color"
+      }
+    },
+    "burnt-orange": {
+      "500": {
+        "$value": "#c2410c",
+        "$type": "color"
+      }
+    },
+    "Brand": {
+      "main": {
+        "$value": "#123456",
+        "$type": "color",
+        "$description": "uppercase family"
+      }
+    },
+    "brand_alt": {
+      "main": {
+        "$value": "#654321",
+        "$type": "color",
+        "$description": "underscore family"
+      }
+    },
+    "accent": {
+      "main": {
+        "$value": "#abcdef",
+        "$type": "color"
+      },
+      "hover": {
+        "$value": "#fedcba",
+        "$type": "color"
+      }
+    },
+    "semantic": {
+      "text": {
+        "primary": {
+          "$value": "{color.gray.900}",
+          "$type": "color"
+        },
+        "muted": {
+          "$value": "{color.gray.500}",
+          "$type": "color"
+        }
+      },
+      "bg": {
+        "$value": "{color.white}",
+        "$type": "color"
+      }
+    },
+    "gray": {
+      "500": {
+        "$value": "#6b7280",
+        "$type": "color"
+      },
+      "900": {
+        "$value": "#111827",
+        "$type": "color"
+      }
+    },
+    "black": {
+      "$value": "#000000",
+      "$type": "color",
+      "$description": "a token directly under the category"
+    }
+  },
+  "gradient": {
+    "header-bg": {
+      "$value": [
+        {
+          "color": "{color.blue.500}",
+          "position": 0
+        },
+        {
+          "color": "#ff00ff",
+          "position": 0.575
+        },
+        {
+          "color": "rgba(255,255,255,0.5)",
+          "position": 1
+        }
+      ],
+      "$type": "gradient"
+    },
+    "odd": {
+      "$value": [
+        {
+          "color": "#fff",
+          "position": 0.005
+        },
+        {
+          "color": "#000",
+          "position": 0.125
+        },
+        {
+          "color": "#111",
+          "position": 0.995
+        }
+      ],
+      "$type": "gradient"
+    },
+    "not-stops": {
+      "$value": [
+        1,
+        2,
+        3
+      ],
+      "$type": "gradient"
+    }
+  },
+  "typography": {
+    "text-size": {
+      "2xl": {
+        "$value": {
+          "value": 1.5,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "xs": {
+        "$value": {
+          "value": 0.75,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "base": {
+        "$value": "{typography.text-size.sm}",
+        "$type": "dimension"
+      },
+      "sm": {
+        "$value": "0.875rem",
+        "$type": "dimension"
+      }
+    },
+    "font-family": {
+      "base": {
+        "$value": [
+          "Open Sans",
+          "system-ui",
+          "sans-serif"
+        ],
+        "$type": "fontFamily"
+      },
+      "mono": {
+        "$value": [],
+        "$type": "fontFamily"
+      }
+    },
+    "font-weight": {
+      "bold": {
+        "$value": 700,
+        "$type": "fontWeight"
+      },
+      "base": {
+        "$value": 400,
+        "$type": "fontWeight"
+      }
+    },
+    "heading": {
+      "lg": {
+        "$value": {
+          "fontSize": "2rem",
+          "lineHeight": 1.25,
+          "fontWeight": "700"
+        },
+        "$type": "typography"
+      },
+      "xl": {
+        "$value": {
+          "fontSize": "3rem",
+          "shadow": {
+            "y": 4,
+            "x": 0
+          },
+          "tags": [
+            "a",
+            "b"
+          ],
+          "flag": true,
+          "none": null
+        },
+        "$type": "typography"
+      },
+      "sm": {
+        "$value": {
+          "value": "12",
+          "unit": "px",
+          "extra": 1
+        },
+        "$type": "typography"
+      }
+    },
+    "edge": {
+      "e21": {
+        "$value": 1e+21,
+        "$type": "number"
+      },
+      "e-7": {
+        "$value": 1e-7,
+        "$type": "number"
+      },
+      "tenth": {
+        "$value": 0.1,
+        "$type": "number"
+      },
+      "hundred": {
+        "$value": 100,
+        "$type": "number"
+      },
+      "one_point_zero": {
+        "$value": 1,
+        "$type": "number"
+      },
+      "big": {
+        "$value": 123456789012345680000,
+        "$type": "number"
+      },
+      "neg": {
+        "$value": -2.5,
+        "$type": "number"
+      },
+      "tiny": {
+        "$value": 0.000001,
+        "$type": "number"
+      },
+      "mix": {
+        "$value": "1e3x",
+        "$type": "number"
+      },
+      "ws": {
+        "$value": "  12px",
+        "$type": "number"
+      },
+      "dot5": {
+        "$value": ".5em",
+        "$type": "number"
+      }
+    },
+    "strings": {
+      "esc": {
+        "$value": "quote \" backslash \\ tab \t nl \n cr \r bell \u0007 del ",
+        "$type": "string",
+        "$description": "<b>&amp;</b> ' ü 日本 😀   sep"
+      }
+    }
+  },
+  "spacing": {
+    "radius": {
+      "md": {
+        "$value": {
+          "value": 0.5,
+          "unit": "rem"
+        },
+        "$type": "dimension",
+        "$description": "ROUNDED"
+      },
+      "none": {
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$type": "dimension",
+        "$description": "SQUARED"
+      },
+      "sm": {
+        "$value": {
+          "value": 0.25,
+          "unit": "rem"
+        },
+        "$type": "dimension",
+        "$description": "SEMI"
+      },
+      "full": {
+        "$value": "9999px",
+        "$type": "dimension"
+      },
+      "weird": {
+        "$value": "auto",
+        "$type": "dimension"
+      }
+    },
+    "margin": {
+      "lg": {
+        "$value": "2rem",
+        "$type": "dimension"
+      },
+      "sm": {
+        "$value": "0.25rem",
+        "$type": "dimension"
+      },
+      "sm2": {
+        "$value": "0.25rem",
+        "$type": "dimension",
+        "$description": "ties keep source order"
+      },
+      "md": {
+        "$value": "1rem",
+        "$type": "dimension"
+      }
+    },
+    "padding": {
+      "1": {
+        "$value": "1px",
+        "$type": "dimension"
+      },
+      "2": {
+        "$value": "2px",
+        "$type": "dimension"
+      },
+      "10": {
+        "$value": "10px",
+        "$type": "dimension"
+      },
+      "DEFAULT": {
+        "$value": "4px",
+        "$type": "dimension"
+      }
+    }
+  }
+}
+--- stderr ---

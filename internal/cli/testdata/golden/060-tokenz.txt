@@ -1,0 +1,8 @@
+args: ["tokenz"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Error: Unknown subcommand "tokenz".
+Valid subcommands: list, tokens, export
+
+Did you mean "tokens"?

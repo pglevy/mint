@@ -1,0 +1,9 @@
+args: ["foobar", "--json"]
+exit: 1
+--- stdout ---
+{
+  "error": "Error: Unknown subcommand \"foobar\".\nValid subcommands: list, tokens, export"
+}
+--- stderr ---
+Error: Unknown subcommand "foobar".
+Valid subcommands: list, tokens, export

@@ -1,0 +1,6 @@
+args: ["l"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Error: Unknown subcommand "l".
+Valid subcommands: list, tokens, export

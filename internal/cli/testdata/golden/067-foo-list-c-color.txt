@@ -1,0 +1,13 @@
+args: ["--foo", "list", "-c", "color"]
+exit: 0
+--- stdout ---
+Mint — query and export Sailwind design tokens.
+
+Examples:
+  mint list --category color
+  mint export -o tokens.json
+
+Subcommands: list, tokens, export
+
+Run mint --help for full usage information.
+--- stderr ---

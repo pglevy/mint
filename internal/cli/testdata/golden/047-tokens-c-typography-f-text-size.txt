@@ -1,0 +1,28 @@
+args: ["tokens", "-c", "typography", "-f", "text-size"]
+exit: 0
+--- stdout ---
+{
+  "2xl": {
+    "$value": {
+      "value": 1.5,
+      "unit": "rem"
+    },
+    "$type": "dimension"
+  },
+  "xs": {
+    "$value": {
+      "value": 0.75,
+      "unit": "rem"
+    },
+    "$type": "dimension"
+  },
+  "base": {
+    "$value": "{typography.text-size.sm}",
+    "$type": "dimension"
+  },
+  "sm": {
+    "$value": "0.875rem",
+    "$type": "dimension"
+  }
+}
+--- stderr ---

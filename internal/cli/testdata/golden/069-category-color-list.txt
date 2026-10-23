@@ -1,0 +1,5 @@
+args: ["--category", "color", "list"]
+exit: 1
+--- stdout ---
+--- stderr ---
+Error: --category is required when stdin is not a TTY

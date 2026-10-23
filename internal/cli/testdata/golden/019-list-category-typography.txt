@@ -1,0 +1,35 @@
+args: ["list", "--category=typography"]
+exit: 0
+--- stdout ---
+
+  typography (23 tokens)
+    edge.neg             -2.5
+    edge.e-7             1e-7
+    edge.tiny            0.000001
+    edge.tenth           0.1
+    edge.dot5            .5em
+    edge.one_point_zero  1
+    edge.ws                12px
+    edge.hundred         100
+    edge.mix             1e3x
+    edge.big             123456789012345680000
+    edge.e21             1e+21
+
+    font-family.base     ["Open Sans","system-ui","sans-serif"]
+    font-family.mono     []
+
+    font-weight.base     400
+    font-weight.bold     700
+
+    heading.sm           extra: 1, unit: px, value: 12
+    heading.lg           fontSize: 2rem, fontWeight: 700, lineHeight: 1.25
+    heading.xl           flag: true, fontSize: 3rem, none: null, shadow: {"y":4,"x":0}, tags: ["a","b"]
+
+    strings.esc          quote " backslash \ tab 	 nl 
+ cr  bell  del 
+
+    text-size.xs         0.75rem
+    text-size.sm         0.875rem
+    text-size.2xl        1.5rem
+    text-size.base       {typography.text-size.sm}
+--- stderr ---

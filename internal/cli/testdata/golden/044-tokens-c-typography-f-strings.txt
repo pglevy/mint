@@ -1,0 +1,11 @@
+args: ["tokens", "-c", "typography", "-f", "strings"]
+exit: 0
+--- stdout ---
+{
+  "esc": {
+    "$value": "quote \" backslash \\ tab \t nl \n cr \r bell \u0007 del ",
+    "$type": "string",
+    "$description": "<b>&amp;</b> ' ü 日本 😀   sep"
+  }
+}
+--- stderr ---
